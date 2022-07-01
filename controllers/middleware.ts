@@ -1,5 +1,7 @@
 import log from '../util/logger'
-import {MW, EMW, JSONErr} from './types';
+import jwt from 'jsonwebtoken'
+import {MW, EMW, JSONErr, MWErr} from './types';
+import {SECRET} from '../util/conf'
 
 const reqLogger: MW = (req, _, nxt) => {
 	log.info(new Date().toUTCString())
@@ -10,7 +12,7 @@ const reqLogger: MW = (req, _, nxt) => {
 	nxt()
 }
 
-const unknownEndpoint: MW<any,JSONErr> = (_, res) => {
+const unknownEndpoint: MWErr = (_, res) => {
 	res.status(404).send({error: 'unknownEndpoint'})
 }
 
@@ -30,4 +32,16 @@ const errHandler: EMW<any,JSONErr> = (err,_req,res,nxt) => {
 	nxt(err)
 }
 
-export default {reqLogger, unknownEndpoint, errHandler}
+const JWTVerifier: MWErr = (req, res, nxt) => {
+  const auth = req.get('authorization')
+  if (!auth || !auth.toLowerCase().startsWith('bearer '))
+    return res.status(401).send({error: 'authorization not provided'})
+
+  const decodedToken = <jwt.JwtPayload>jwt.verify(auth.substring(7), SECRET);
+  if (!decodedToken.id)
+    return res.status(401).send({error: 'JWT provided was invalid'})
+  req.token = decodedToken;
+  nxt()
+}
+
+export default {reqLogger, unknownEndpoint, errHandler, JWTVerifier}
