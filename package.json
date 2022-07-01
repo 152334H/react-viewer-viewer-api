@@ -8,7 +8,7 @@
     "dev": "ts-node-dev index.ts",
     "tsc": "tsc",
     "lint": "eslint --ext .ts .",
-    "test": "ts-jest --verbose --runInBand --forceExit"
+    "test": "jest --verbose --runInBand --forceExit"
   },
   "repository": {
     "type": "git",
