@@ -7,7 +7,16 @@ interface Req<T> extends Express.Request {
 	token?: undefined
 }
 
-type MW<T> = (req: Req<T>, res: Express.Response, nxt: express.NextFunction) => any;
-type EMW<T> = (err: Error, req: Req<T>, res: Express.Response, nxt: express.NextFunction) => any;
+interface Res<T> extends Express.Response {
+	status: (v: number) => Res<T>
+	send: (json: T) => Res<T>
+}
 
-export {MW,EMW,Req}
+interface JSONErr {
+	error: string
+}
+
+type MW<BODY=any,JSON=any> = (req: Req<BODY>, res: Res<JSON>, nxt: express.NextFunction) => any;
+type EMW<BODY=any,JSON=any> = (err: Error, req: Req<BODY>, res: Res<JSON>, nxt: express.NextFunction) => any;
+
+export {MW,EMW,Req, JSONErr}

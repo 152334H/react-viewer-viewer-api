@@ -18,4 +18,8 @@ const app = express();
 app.use(express.json());
 app.use(mw.reqLogger);
 
+
+app.use(mw.unknownEndpoint);
+app.use(mw.errHandler);
+
 export default app;
