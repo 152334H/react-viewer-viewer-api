@@ -4,11 +4,11 @@
   "description": "desc",
   "main": "index.ts",
   "scripts": {
-    "start": "tsc && node build/index.js",
-    "dev": "ts-node-dev index.ts",
+    "start": "NODE_ENV=prod tsc && node build/index.js",
+    "dev": "NODE_ENV=dev ts-node-dev index.ts",
     "tsc": "tsc",
     "lint": "eslint --ext .ts .",
-    "test": "jest --verbose --runInBand --forceExit"
+    "test": "NODE_ENV=test jest --verbose --runInBand --forceExit"
   },
   "repository": {
     "type": "git",
