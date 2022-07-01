@@ -1,0 +1,35 @@
+{
+  "name": "react-viewer-viewer-api",
+  "version": "1.0.0",
+  "description": "desc",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsc && node build/index.js",
+    "dev": "ts-node-dev index.ts",
+    "tsc": "tsc",
+    "lint": "eslint --ext .ts .",
+    "test": "jest --verbose --runInBand --forceExit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ur/mom.git"
+  },
+  "author": "152334H",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ur/mom/issues"
+  },
+  "homepage": "https://github.com/ur/mom#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "eslint": "^8.18.0",
+    "ts-node": "^10.8.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
