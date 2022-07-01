@@ -1,8 +1,7 @@
 import express from 'express';
 require('express-async-errors');
 import mongoose from 'mongoose';
-import conf from './util/conf';
-const MONGO = conf.MONGO;
+import {MONGO} from './util/conf';
 
 mongoose.connect(MONGO.URI, {
 	auth: {
