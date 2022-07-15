@@ -39,7 +39,7 @@ const hasBodySession = [
   }), validate
 ]
 const hasBodyPassword = [
-  body('password').isString().isLength({min: 8, max: 128}),
+  body('password').isString().isLength({min: 0, max: 128}),
   validate
 ]
 
@@ -69,7 +69,7 @@ const JWTVerifier: MWErr = (req, res, nxt) => {
     return res.status(401).send({error: 'authorization not provided'})
 
   const decodedToken = <jwt.JwtPayload>jwt.verify(auth.substring(7), SECRET);
-  if (!decodedToken.id)
+  if (!decodedToken.login)
     return res.status(401).send({error: 'JWT provided was invalid'})
   req.token = decodedToken;
   nxt()

@@ -21,8 +21,8 @@ const app = express();
 app.use(express.json());
 app.use(mw.reqLogger);
 
-app.use('/api/images', imagesRouter)
-app.use('/api/sessions', sessionsRouter)
+app.use('/api/images', mw.JWTVerifier, imagesRouter)
+app.use('/api/sessions', mw.JWTVerifier, sessionsRouter)
 app.use('/api/login', loginRouter)
 
 app.use(mw.unknownEndpoint);
