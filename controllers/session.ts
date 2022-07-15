@@ -7,12 +7,6 @@ import mw from './middleware'
 
 const sessionRouter = express.Router()
 
-const fixBasename = (imgs: any[]) => imgs.forEach((im_meta: any) => {
-	const basename = im_meta.src.split('/').pop()
-	delete im_meta.src
-	im_meta.basename = basename
-})
-
 sessionRouter.get('/', async (_req, res, _nxt) => {
 	//TODO: check if this returns sorted by date
 	const sessions = await Session.find({});
@@ -30,7 +24,6 @@ sessionRouter.get('/:id', mw.hasParamId, <MW>(async (req,res,_nxt) => {
 
 sessionRouter.post('/', mw.hasBodySession, <MW<SessionBody>>(async (req,res,_nxt) => {
 	const {name,imgs} = req.body;
-	fixBasename(imgs)
 	const sess = new Session({
 		name, imgs
 	})
@@ -52,7 +45,6 @@ sessionRouter.delete('/:id', mw.hasParamId, <MW>(async (req, res,_nxt) => {
 
 sessionRouter.put('/:id', mw.hasParamId, mw.hasBodySession, <MW<SessionBody>>(async (req,res,_nxt) => {
 	const {name,imgs} = req.body;
-	fixBasename(imgs);
 	const id = req.params.id;
 
 	const sess = await Session.findByIdAndUpdate(
