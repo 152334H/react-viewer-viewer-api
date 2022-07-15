@@ -97,6 +97,16 @@ describe('sessions', () => {
       .toEqual(userSession);
     sess_id = res.body.id;
   })
+  test('POST / (malformatted)', async () => {
+    await auth(api.post('/api/sessions'))
+      .send({name: {1:'hi'}, imgs: 'what'})
+      .expect(400)
+      .expect('Content-type', /application\/json/)
+    await auth(api.post('/api/sessions'))
+      .send({nonsense: 'here'})
+      .expect(400)
+      .expect('Content-type', /application\/json/)
+  })
   test('GET /', async () => {
     const res = await auth(api.get('/api/sessions'))
       .expect(200)

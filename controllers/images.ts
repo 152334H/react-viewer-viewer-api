@@ -5,7 +5,6 @@ import {imgPath, fileExists, apiPath} from '../util/image_fs'
 import {IMAGE_DIR} from '../util/conf'
 const imagesRouter = express.Router();
 
-//TODO: add auth
 imagesRouter.post('/', fileUpload({
 			limits: {fileSize: 50*1024*1024},
 			safeFileNames: true,

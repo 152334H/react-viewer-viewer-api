@@ -3,7 +3,6 @@ import Session,{SessionBody} from '../models/session'
 import _ from 'lodash'
 import {MW} from './types';
 import mw from './middleware'
-//TODO: add auth and json validation
 
 const sessionRouter = express.Router()
 
