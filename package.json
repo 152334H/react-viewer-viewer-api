@@ -8,12 +8,13 @@
     "dev": "NODE_ENV=dev ts-node-dev index.ts",
     "tsc": "tsc",
     "lint": "eslint --ext .ts .",
-    "test": "NODE_ENV=test jest --verbose --runInBand --forceExit"
+    "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --runInBand --forceExit"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ur/mom.git"
   },
+  "type": "module",
   "author": "152334H",
   "license": "MIT",
   "bugs": {

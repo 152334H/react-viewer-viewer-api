@@ -21,7 +21,10 @@ const validate: MW = (req, res, nxt) => {
     })
   nxt()
 }
-const hasParamId = [param('id').isString().isLength({min: 24, max: 24}), validate]
+const hasParamId = [
+  param('id').isString().isLength({min: 24, max: 24}),
+  validate
+]
 const hasBodySession = [
   body('name').isString(),
   body('imgs').isArray().bail().custom((imgs) => {
@@ -33,7 +36,12 @@ const hasBodySession = [
       im_meta.basename = basename
     }
     return true
-  }), validate]
+  }), validate
+]
+const hasBodyPassword = [
+  body('password').isString().isLength({min: 8, max: 128}),
+  validate
+]
 
 const unknownEndpoint: MWErr = (_, res) => {
 	res.status(404).send({error: 'unknownEndpoint'})
@@ -67,4 +75,4 @@ const JWTVerifier: MWErr = (req, res, nxt) => {
   nxt()
 }
 
-export default {reqLogger, unknownEndpoint, errHandler, JWTVerifier, hasParamId, hasBodySession}
+export default {reqLogger, unknownEndpoint, errHandler, JWTVerifier, hasParamId, hasBodySession, hasBodyPassword}
