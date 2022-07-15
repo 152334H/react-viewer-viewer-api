@@ -2,6 +2,7 @@ import log from '../util/logger'
 import jwt from 'jsonwebtoken'
 import {MW, EMW, JSONErr, MWErr} from './types';
 import {SECRET} from '../util/conf'
+import {body, param, validationResult} from 'express-validator';
 
 const reqLogger: MW = (req, _, nxt) => {
 	log.info(new Date().toUTCString())
@@ -11,6 +12,17 @@ const reqLogger: MW = (req, _, nxt) => {
 	log.info('---')
 	nxt()
 }
+
+const validate: MW = (req, res, nxt) => {
+  const errs = validationResult(req);
+  if (!errs.isEmpty())
+    return res.status(400).send({
+      error: errs.array()
+    })
+  nxt()
+}
+const hasParamId = [param('id').isString().isLength({min: 24, max: 24}), validate]
+const hasBodySession = [body('name').isString(), body('imgs').isArray(), validate]
 
 const unknownEndpoint: MWErr = (_, res) => {
 	res.status(404).send({error: 'unknownEndpoint'})
@@ -44,4 +56,4 @@ const JWTVerifier: MWErr = (req, res, nxt) => {
   nxt()
 }
 
-export default {reqLogger, unknownEndpoint, errHandler, JWTVerifier}
+export default {reqLogger, unknownEndpoint, errHandler, JWTVerifier, hasParamId, hasBodySession}

@@ -6,7 +6,10 @@ interface Req<T> extends Express.Request {
 	path: string,
 	get: (header: string) => string | undefined,
 	body: T,
-	token?: jwt.JwtPayload
+	token?: jwt.JwtPayload,
+	params: {
+		id?: string,
+	}
 }
 
 interface Res<T> extends Express.Response {
