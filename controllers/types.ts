@@ -12,6 +12,7 @@ interface Req<T> extends Express.Request {
 interface Res<T> extends Express.Response {
 	status: (v: number) => Res<T>
 	send: (json: T) => Res<T>
+	end: () => void
 }
 
 interface JSONErr {
