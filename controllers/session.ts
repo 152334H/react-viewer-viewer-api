@@ -32,6 +32,15 @@ sessionRouter.post('/', mw.hasBodySession, <MW<SessionBody>>(async (req,res,_nxt
 	res.send(sess)
 }))
 
+sessionRouter.delete('/', <MW>(async (req,res,_nxt) => {
+	const confirmation = req.body.confirm;
+	if (confirmation !== 'YES I AM REALLY DELETING EVERYTHING')
+		return res.status(500).end();
+  //
+	await Session.deleteMany({});
+	return res.status(204).end();
+}))
+
 sessionRouter.delete('/:id', mw.hasParamId, <MW>(async (req, res,_nxt) => {
 	const id = req.params.id;
 	const sess = await Session.findById(id);

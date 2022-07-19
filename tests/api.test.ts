@@ -107,6 +107,10 @@ describe('sessions', () => {
       .expect(400)
       .expect('Content-type', /application\/json/)
   })
+  test('DELETE / (failure)', async () => {
+    await auth(api.delete('/api/sessions/'))
+      .expect(500)
+  })
   test('GET /', async () => {
     const res = await auth(api.get('/api/sessions'))
       .expect(200)
@@ -142,6 +146,15 @@ describe('sessions', () => {
     await auth(api.get(url)).expect(404)
     await auth(api.delete(url)).expect(404)
     await auth(api.put(url).send(userSession)).expect(404)
+  })
+  test('DELETE /', async () => {
+    await auth(api.delete('/api/sessions/'))
+      .send({confirm: 'YES I AM REALLY DELETING EVERYTHING'})
+      .expect(204);
+    const res = await auth(api.get('/api/sessions'))
+      .expect(200)
+      .expect('Content-type', /application\/json/);
+    expect(res.body).toHaveLength(0);
   })
 })
 
