@@ -20,9 +20,17 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-	"paths": {
-		"express-async-errors": ["."]
-	}
+        "paths": {
+            "express-async-errors": ["."]
+        }
     },
-    "exclude": [ "node_modules" ]
+    "ts-node": {
+        "esm": true
+        /*
+        "compilerOptions": {
+            "module": "CommonJS"
+        }
+        */
+    },
+    "exclude": [ "node_modules", "build", "upload" ]
 }

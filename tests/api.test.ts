@@ -44,7 +44,7 @@ describe('login', () => {
       expect(res.body.error).toBe('invalid login')
     })
     test('unauthenticated', async () => {
-      const res = await api.get('/api/images/ANYWHERE')
+      const res = await api.post('/api/images/')
         .expect(401)
         .expect('Content-type', /application\/json/)
       expect(res.body.error).toBe('authorization not provided')
@@ -78,10 +78,17 @@ describe('images', () => {
   })
   test('GET', async () => {
     const res = await api.get(REMOTE_IMGPATH)
-      .auth(token, {type: 'bearer'})
+      .set("cookie", `access_token=${token};`)
       .expect(200)
       .expect('Content-type', 'image/png')
     expect(res).toBeDefined();
+  })
+  test('GET bad auth', async () => {
+    const res = await api.get(REMOTE_IMGPATH)
+      .auth(token, {type: 'bearer'})
+      .expect(401)
+      .expect('Content-type', /application\/json/)
+    expect(res.body.error).toBe('authorization (cookie) not provided');
   })
 })
 

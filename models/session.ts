@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import {apiPath} from "../util/image_fs";
+import {apiPath} from "../util/image_fs.js";
 
 export interface ImageMeta {
 	scale: number,

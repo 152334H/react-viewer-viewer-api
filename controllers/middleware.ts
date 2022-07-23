@@ -1,8 +1,8 @@
-import log from '../util/logger'
-import jwt from 'jsonwebtoken'
-import {MW, EMW, JSONErr, MWErr} from './types';
-import {SECRET} from '../util/conf'
 import {body, param, validationResult} from 'express-validator';
+import jwt from 'jsonwebtoken'
+import {MW, EMW, JSONErr, MWErr} from './types.js';
+import {SECRET} from '../util/conf.js'
+import log from '../util/logger.js'
 
 const reqLogger: MW = (req, _, nxt) => {
 	log.info(new Date().toUTCString())
@@ -48,7 +48,7 @@ const unknownEndpoint: MWErr = (_, res) => {
 }
 
 const errHandler: EMW<any,JSONErr> = (err,_req,res,nxt) => {
-	console.error(err.message)
+	console.error(err.name,err.message)
 
 	switch (err.name) {
 		case 'CastError':
@@ -75,4 +75,15 @@ const JWTVerifier: MWErr = (req, res, nxt) => {
   nxt()
 }
 
-export default {reqLogger, unknownEndpoint, errHandler, JWTVerifier, hasParamId, hasBodySession, hasBodyPassword}
+const JWTCookie: MWErr = (req,res,nxt) => {
+  const token = req.cookies.access_token;
+  if (!token)
+    return res.status(401).send({error: 'authorization (cookie) not provided'})
+  const decodedToken = <jwt.JwtPayload>jwt.verify(token, SECRET);
+  if (!decodedToken.login)
+    return res.status(401).send({error: 'JWT provided was invalid'})
+  req.token = decodedToken
+  nxt()
+}
+
+export default {reqLogger, unknownEndpoint, errHandler, JWTVerifier, hasParamId, hasBodySession, hasBodyPassword, JWTCookie}

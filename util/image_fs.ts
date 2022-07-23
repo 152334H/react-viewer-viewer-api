@@ -1,4 +1,4 @@
-import {IMAGE_DIR} from '../util/conf'
+import {IMAGE_DIR} from '../util/conf.js'
 import path from 'path'
 import fs from 'fs'
 

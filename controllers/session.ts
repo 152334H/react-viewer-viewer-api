@@ -1,15 +1,15 @@
 import express from 'express';
-import Session,{SessionBody} from '../models/session'
 import _ from 'lodash'
-import {MW} from './types';
-import mw from './middleware'
+import Session,{SessionBody} from '../models/session.js';
+import {MW} from './types.js';
+import mw from './middleware.js';
 
 const sessionRouter = express.Router()
 
 sessionRouter.get('/', async (_req, res, _nxt) => {
 	//TODO: check if this returns sorted by date
 	const sessions = await Session.find({});
-	return res.json(sessions)
+	return res.send(sessions)
 })
 
 sessionRouter.get('/:id', mw.hasParamId, <MW>(async (req,res,_nxt) => {

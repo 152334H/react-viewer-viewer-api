@@ -1,11 +1,12 @@
 import express from 'express';
 import fileUpload from 'express-fileupload'
 import path from 'path'
-import {imgPath, fileExists, apiPath} from '../util/image_fs'
-import {IMAGE_DIR} from '../util/conf'
+import {imgPath, fileExists, apiPath} from '../util/image_fs.js'
+import {IMAGE_DIR} from '../util/conf.js'
+import mw from '../controllers/middleware.js'
 const imagesRouter = express.Router();
 
-imagesRouter.post('/', fileUpload({
+imagesRouter.post('/', mw.JWTVerifier, fileUpload({
 			limits: {fileSize: 50*1024*1024},
 			safeFileNames: true,
 			preserveExtension: 4,
@@ -22,7 +23,8 @@ imagesRouter.post('/', fileUpload({
 	//
 	if (await fileExists(fpath))
 		return res.status(409).send({
-			error: 'file already exists (hash collision?)'
+			error: 'file already exists (hash collision?)',
+			url: apiPath(basename),
 		}) // technically a race condition here.
 	//
 	try { await upload.mv(fpath) }
@@ -37,6 +39,6 @@ imagesRouter.post('/', fileUpload({
 		.send({url: apiPath(basename)})
 })
 
-imagesRouter.use('/', express.static(IMAGE_DIR))
+imagesRouter.use('/', mw.JWTCookie, express.static(IMAGE_DIR))
 
 export default imagesRouter

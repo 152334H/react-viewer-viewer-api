@@ -1,4 +1,4 @@
-import {NODE_ENV} from './conf'
+import {NODE_ENV} from './conf.js'
 
 const info = (...params: any[]) => {
 	if (NODE_ENV !== 'test')

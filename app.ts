@@ -1,12 +1,14 @@
 import express from 'express';
 import * as _ from 'express-async-errors';
 import mongoose from 'mongoose';
-import {MONGO} from './util/conf';
-import log from './util/logger'
-import mw from './controllers/middleware'
-import imagesRouter from './controllers/images'
-import sessionsRouter from './controllers/session'
-import loginRouter from './controllers/login';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import {MONGO} from './util/conf.js';
+import log from './util/logger.js';
+import mw from './controllers/middleware.js';
+import imagesRouter from './controllers/images.js';
+import sessionsRouter from './controllers/session.js';
+import loginRouter from './controllers/login.js';
 
 mongoose.connect(MONGO.URI, {
 	auth: {
@@ -18,10 +20,12 @@ mongoose.connect(MONGO.URI, {
 .catch(e => console.error('failed to connect to DB', e));
 
 const app = express();
+app.use(cors()) // TODO: specify URLs
 app.use(express.json());
+app.use(cookieParser())
 app.use(mw.reqLogger);
 
-app.use('/api/images', mw.JWTVerifier, imagesRouter)
+app.use('/api/images', imagesRouter)
 app.use('/api/sessions', mw.JWTVerifier, sessionsRouter)
 app.use('/api/login', loginRouter)
 

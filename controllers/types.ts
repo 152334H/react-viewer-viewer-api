@@ -9,10 +9,14 @@ interface Req<T> extends Express.Request {
 	token?: jwt.JwtPayload,
 	params: {
 		id?: string,
+	},
+	cookies: {
+		access_token?: string,
 	}
 }
 
 interface Res<T> extends Express.Response {
+	cookie: (name: string, value: string, options: any) => Res<T>
 	status: (v: number) => Res<T>
 	send: (json: T) => Res<T>
 	end: () => void
