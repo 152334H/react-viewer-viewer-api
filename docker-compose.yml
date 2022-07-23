@@ -1,0 +1,49 @@
+version: '3'
+
+volumes:
+  imagesession-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /path/to/imagesession-data # REPLACE_ME
+
+networks:
+  frontend:
+    external:
+      name: proxy
+  backend:
+
+services:
+  imagesession-api:
+    build:
+      context: .
+    restart: always
+    volumes:
+      - imagesession-data:/upload
+    environment:
+      - PORT=4444
+      - IMAGE_DIR=/upload
+      - MONGO_PROD_URI=mongodb://localhost:3017/sessionlist
+      - MONGO_TEST_URI=mongodb://localhost:3017/testsessionlist
+      - MONGO_USER=DEFAULT_MONGODB_USER_YOU_SHOULD_REPLACE_THIS
+      - MONGO_PASS=DEFAULT_MONGODB_PASS_YOU_SHOULD_REPLACE_THIS
+      - SECRET=<REPLACE_ME>
+      - PASSWORD=<REPLACE_ME>
+      - HOST_BACKEND=<REPLACE_ME>
+      - HOST_FRONTEND=<REPLACE_ME>
+    networks:
+      - frontend
+      - backend
+
+  mongodb:
+    image: mongo:5.0
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=DEFAULT_MONGODB_USER_YOU_SHOULD_REPLACE_THIS
+      - MONGO_INITDB_ROOT_PASSWORD=DEFAULT_MONGODB_PASS_YOU_SHOULD_REPLACE_THIS
+    ports:
+      - 3017:27017
+# MONGODB_CONNSTRING=mongodb://DEFAULT_MONGODB_USER_YOU_SHOULD_REPLACE_THIS:DEFAULT_MONGODB_PASS_YOU_SHOULD_REPLACE_THIS@mongodb
+# TODO:
+    networks:
+      - backend
