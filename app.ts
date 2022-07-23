@@ -3,7 +3,7 @@ import * as _ from 'express-async-errors';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import {MONGO} from './util/conf.js';
+import {HOST, MONGO} from './util/conf.js';
 import log from './util/logger.js';
 import mw from './controllers/middleware.js';
 import imagesRouter from './controllers/images.js';
@@ -20,7 +20,7 @@ mongoose.connect(MONGO.URI, {
 .catch(e => console.error('failed to connect to DB', e));
 
 const app = express();
-app.use(cors()) // TODO: specify URLs
+app.use(cors({ origin: HOST.FRONTEND, credentials: true })) // TODO: specify URLs
 app.use(express.json());
 app.use(cookieParser())
 app.use(mw.reqLogger);

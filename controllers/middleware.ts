@@ -30,7 +30,7 @@ const hasBodySession = [
   body('imgs').isArray().bail().custom((imgs) => {
     for (const im_meta of imgs) {
       if (typeof im_meta.src != 'string') return false;
-      if (!/^\/api\/images\/[0-9a-f]{2}\/[0-9a-f]{2}\/[0-9a-f]{32}/.test(im_meta.src)) return false;
+      if (!/\/api\/images\/[0-9a-f]{2}\/[0-9a-f]{2}\/[0-9a-f]{32}/.test(im_meta.src)) return false;
       const basename = im_meta.src.split('/').pop();
       delete im_meta.src
       im_meta.basename = basename

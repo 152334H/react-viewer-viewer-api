@@ -1,4 +1,4 @@
-import {IMAGE_DIR} from '../util/conf.js'
+import {HOST, IMAGE_DIR} from '../util/conf.js'
 import path from 'path'
 import fs from 'fs'
 
@@ -8,7 +8,7 @@ const preImgPath = (h: string) => {
 	return path.join(d1,d2,h)
 }
 const imgPath = (h: string) => path.join(IMAGE_DIR, preImgPath(h))
-const apiPath = (h: string) => path.join('/api/images/', preImgPath(h))
+const apiPath = (h: string) => HOST.BACKEND+path.join('/api/images/', preImgPath(h))
 
 const fileExists = async (fpath: string) =>
 	await fs.promises
