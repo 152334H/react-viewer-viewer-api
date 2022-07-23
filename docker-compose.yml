@@ -22,7 +22,7 @@ services:
     volumes:
       - imagesession-data:/upload
     environment:
-      - PORT=4444
+      - PORT=4444 # don't change this
       - IMAGE_DIR=/upload
       - MONGO_PROD_URI=mongodb://localhost:3017/sessionlist
       - MONGO_TEST_URI=mongodb://localhost:3017/testsessionlist
@@ -41,9 +41,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=DEFAULT_MONGODB_USER_YOU_SHOULD_REPLACE_THIS
       - MONGO_INITDB_ROOT_PASSWORD=DEFAULT_MONGODB_PASS_YOU_SHOULD_REPLACE_THIS
-    ports:
-      - 3017:27017
-# MONGODB_CONNSTRING=mongodb://DEFAULT_MONGODB_USER_YOU_SHOULD_REPLACE_THIS:DEFAULT_MONGODB_PASS_YOU_SHOULD_REPLACE_THIS@mongodb
-# TODO:
     networks:
       - backend
+# MONGODB_CONNSTRING=mongodb://DEFAULT_MONGODB_USER_YOU_SHOULD_REPLACE_THIS:DEFAULT_MONGODB_PASS_YOU_SHOULD_REPLACE_THIS@mongodb
+# TODO:
