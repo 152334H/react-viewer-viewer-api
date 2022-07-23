@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
         /*
-        "rootDir": "src",
         "sourceMap": true,
         "allowJs": true,
         */
+        "rootDir": "src",
         "outDir": "./build/",
         "module": "es2022",
         "moduleResolution": "node",

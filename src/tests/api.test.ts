@@ -64,7 +64,7 @@ describe('images', () => {
   test('POST', async () => {
     const res = await req()
       .set('Content-type', 'multipart/form-data')
-      .attach('img', 'tests/0.png')
+      .attach('img', 'src/tests/0.png')
       .expect(200)
     expect(res.body.url).toContain(REMOTE_IMGPATH);
     userSession.imgs[0].src = res.body.url;
@@ -72,7 +72,7 @@ describe('images', () => {
   test('POST duplicate', async () => {
     const res = await req()
       .set('Content-type', 'multipart/form-data')
-      .attach('img', 'tests/0.png')
+      .attach('img', 'src/tests/0.png')
       .expect(409)
     expect(res.body.error).toMatch(/file already exists/)
   })

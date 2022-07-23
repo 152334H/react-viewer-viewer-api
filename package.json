@@ -2,7 +2,7 @@
   "name": "react-viewer-viewer-api",
   "version": "1.0.0",
   "description": "desc",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "start": "tsc && NODE_ENV=prod node build/index.js",
     "dev": "NODE_ENV=dev ts-node-esm index.ts",
