@@ -1,7 +1,7 @@
 import express from 'express';
 import fileUpload from 'express-fileupload'
 import path from 'path'
-import {imgPath, fileExists, apiPath} from '../util/image_fs.js'
+import {imgPath, fileExists, apiPath, fileEqualsBuffer} from '../util/image_fs.js'
 import {IMAGE_DIR} from '../util/conf.js'
 import mw from '../controllers/middleware.js'
 const imagesRouter = express.Router();
@@ -21,11 +21,17 @@ imagesRouter.post('/', mw.JWTVerifier, fileUpload({
 	const basename = upload.md5+path.extname(upload.name)
 	const fpath = imgPath(basename)
 	//
-	if (await fileExists(fpath))
-		return res.status(409).send({
-			error: 'file already exists (hash collision?)',
-			url: apiPath(basename),
-		}) // technically a race condition here.
+	if (await fileExists(fpath)) {
+		if (await fileEqualsBuffer(fpath, upload.data))
+			return res.status(409).send({
+				error: 'file already exists',
+				url: apiPath(basename),
+			}) // technically a race condition here.
+		else
+			return res.status(500).send({
+				error: 'hash collision detected!',
+			})
+	}
 	//
 	try { await upload.mv(fpath) }
 	catch (e) {

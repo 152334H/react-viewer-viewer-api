@@ -15,6 +15,10 @@ const fileExists = async (fpath: string) =>
 	.access(fpath, fs.constants.F_OK)
 	.then(() => true).catch(() => false)
 
+const fileEqualsBuffer = async (fpath: string, buf: Buffer) =>
+	await fs.promises.readFile(fpath)
+  .then(fbuf => fbuf.equals(buf))
+
 const imgExists = async (h: string) =>
 	await fileExists(imgPath(h))
 
@@ -26,4 +30,4 @@ const imgRm = async (h: string) => { // TODO: use this
 if (!fs.existsSync(IMAGE_DIR))
 	throw Error(`$IMAGE_DIR='${IMAGE_DIR}' does not exist!`)
 
-export {imgPath, fileExists, imgExists, imgRm, apiPath}
+export {imgPath, fileExists, imgExists, imgRm, apiPath, fileEqualsBuffer}
