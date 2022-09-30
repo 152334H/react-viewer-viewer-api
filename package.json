@@ -5,22 +5,24 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "tsc && NODE_ENV=prod node build/index.js",
+    "ts-node": "ts-node",
     "dev": "NODE_ENV=dev ts-node-esm index.ts",
+    "tsc": "tsc",
     "build": "tsc-transpile-only",
     "lint": "eslint --ext .ts .",
     "test": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose --runInBand --forceExit"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ur/mom.git"
+    "url": "git+https://github.com/152334H/react-viewer-viewer-api.git"
   },
   "type": "module",
   "author": "152334H",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ur/mom/issues"
+    "url": "https://github.com/152334H/react-viewer-viewer-api/issues"
   },
-  "homepage": "https://github.com/ur/mom#readme",
+  "homepage": "https://github.com/152334H/react-viewer-viewer-api#readme",
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
